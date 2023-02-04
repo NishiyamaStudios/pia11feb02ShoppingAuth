@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(requireContext(), "Login ok.", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "Login ok.", Toast.LENGTH_SHORT).show()
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(requireContext(), "Login failed.", Toast.LENGTH_SHORT).show()
@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(requireContext(), "Register ok.", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "Register ok.", Toast.LENGTH_SHORT).show()
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(requireContext(), "Register failed.", Toast.LENGTH_SHORT).show()

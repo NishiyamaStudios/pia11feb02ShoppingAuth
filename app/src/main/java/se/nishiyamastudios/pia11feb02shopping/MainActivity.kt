@@ -11,13 +11,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(Firebase.auth.currentUser != null) {
-            supportFragmentManager.commit {
-                replace(R.id.mainFragCon, ShoppingFragment())
-            }
-        } else {
-            supportFragmentManager.commit {
-                replace(R.id.mainFragCon, LoginFragment())
+        Firebase.auth.addAuthStateListener {
+
+            if(Firebase.auth.currentUser != null) {
+                supportFragmentManager.commit {
+                    replace(R.id.mainFragCon, ShoppingFragment())
+                }
+            } else {
+                supportFragmentManager.commit {
+                    replace(R.id.mainFragCon, LoginFragment())
+                }
+
             }
 
         }
