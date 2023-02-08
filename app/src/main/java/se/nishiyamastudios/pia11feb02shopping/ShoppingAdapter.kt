@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
 
 
-    var shopitems = mutableListOf<ShoppingItem>()
+    lateinit var frag : ShoppingFragment
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val shoppingName: TextView
@@ -32,12 +32,12 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.shoppingName.text = shopitems[position].shopname
+        holder.shoppingName.text = frag.model.shopitems[position].shopname
 
     }
 
     override fun getItemCount(): Int {
-        return shopitems.size
+        return frag.model.shopitems.size
     }
 
 }

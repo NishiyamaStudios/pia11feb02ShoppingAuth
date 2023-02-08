@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -22,6 +23,8 @@ class ShoppingFragment : Fragment() {
 
     var shopadapter = ShoppingAdapter()
 
+    val model by viewModels<ShoplistViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +32,8 @@ class ShoppingFragment : Fragment() {
         // Inflate the layout for this fragment
         //utan binding
         //return inflater.inflate(R.layout.fragment_shopping, container, false)
+
+        shopadapter.frag = this
 
         _binding = FragmentShoppingBinding.inflate(inflater, container, false)
         val view = binding.root //root = botten av vyn, ex. constraintlayouten
@@ -62,47 +67,15 @@ class ShoppingFragment : Fragment() {
         binding.addShoppingButton.setOnClickListener {
             val addshopname = binding.shoppingNameET.text.toString()
 
-            val tempShopitem = ShoppingItem(addshopname)
-
-            val database = Firebase.database
-            val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
-            shopRef.push().setValue(tempShopitem)
-
-            binding.shoppingNameET.setText("")
-
-            loadShopping()
-        }
-
-        loadShopping()
-    }
-
-    fun loadShopping() {
-        /*
-        var shoplist = mutableListOf<ShoppingItem>()
-
-        var s1 = ShoppingItem("Banan")
-        var s2 = ShoppingItem("Apelsin")
-
-        shoplist.add(s1)
-        shoplist.add(s2)
-
-        shopadapter.shopitems = shoplist
-        shopadapter.notifyDataSetChanged()
-         */
-
-
-        val database = Firebase.database
-        val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
-        shopRef.get().addOnSuccessListener {
-            val shoplist = mutableListOf<ShoppingItem>()
-            it.children.forEach {childsnap ->
-                shoplist.add(childsnap.getValue<ShoppingItem>()!!)
+            model.addShopping(addshopname) {
+                shopadapter.notifyDataSetChanged()
             }
-            shopadapter.shopitems = shoplist
-            shopadapter.notifyDataSetChanged()
 
         }
 
+        model.loadShopping() {
+            shopadapter.notifyDataSetChanged() //Genom detta så körs koden när vi vet att fragmenten är färdig.
+        }
     }
 
 }
