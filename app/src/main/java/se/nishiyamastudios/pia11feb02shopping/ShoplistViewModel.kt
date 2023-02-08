@@ -11,9 +11,9 @@ class ShoplistViewModel : ViewModel() {
 
     var shopitems = mutableListOf<ShoppingItem>()
 
-    fun addShopping(addshopname : String, callback: () -> Unit) {
+    fun addShopping(addshopname : String, addshopamount : Int, callback: () -> Unit) {
 
-        val tempShopitem = ShoppingItem(addshopname)
+        val tempShopitem = ShoppingItem(addshopname, addshopamount)
 
         val database = Firebase.database
         val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
@@ -33,12 +33,27 @@ class ShoplistViewModel : ViewModel() {
         shopRef.get().addOnSuccessListener {
             val shoplist = mutableListOf<ShoppingItem>()
             it.children.forEach {childsnap ->
-                shoplist.add(childsnap.getValue<ShoppingItem>()!!)
+                val tempShop = childsnap.getValue<ShoppingItem>()!!
+                tempShop.fbid = childsnap.key
+                shoplist.add(tempShop)
             }
             shopitems = shoplist
             callback() //Kör kodbiten som vi fick med oss in som en parameter
 
         }
+
+    }
+
+    fun deleteShop(delitem : ShoppingItem, callback: () -> Unit) {
+        val database = Firebase.database
+        val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
+
+        shopRef.child(delitem.fbid!!).removeValue().addOnCompleteListener {
+            loadShopping() {
+                callback()
+            }
+        }
+
 
     }
 

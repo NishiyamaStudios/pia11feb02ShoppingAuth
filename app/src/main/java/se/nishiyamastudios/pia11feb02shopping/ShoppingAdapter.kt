@@ -32,7 +32,19 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.shoppingName.text = frag.model.shopitems[position].shopname
+        val currentShop = frag.model.shopitems[position]
+
+        if(currentShop.shopamount == null) {
+            holder.shoppingName.text = currentShop.shopname
+        } else {
+            holder.shoppingName.text = currentShop.shopname + " " + currentShop.shopamount!!.toString()
+        }
+
+        holder.itemView.setOnClickListener {
+            frag.model.deleteShop(currentShop) {
+                notifyDataSetChanged()
+            }
+        }
 
     }
 

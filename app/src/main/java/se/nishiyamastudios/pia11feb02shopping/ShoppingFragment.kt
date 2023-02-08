@@ -66,9 +66,15 @@ class ShoppingFragment : Fragment() {
 
         binding.addShoppingButton.setOnClickListener {
             val addshopname = binding.shoppingNameET.text.toString()
+            val addshopamount = binding.shoppingAmountET.text.toString()
 
-            model.addShopping(addshopname) {
-                shopadapter.notifyDataSetChanged()
+            val amount = addshopamount.toIntOrNull() //har den inget värde blir det null
+            if( amount == null) {
+                //visa felmeddelande
+            } else {
+                model.addShopping(addshopname, amount) {
+                    shopadapter.notifyDataSetChanged()
+                }
             }
 
         }
