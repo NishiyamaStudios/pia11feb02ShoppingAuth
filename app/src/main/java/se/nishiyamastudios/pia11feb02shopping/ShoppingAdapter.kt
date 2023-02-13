@@ -40,7 +40,10 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
             holder.shoppingName.text = currentShop.shopname + " " + currentShop.shopamount!!.toString()
         }
 
+        //TODO: Markera köp/ej köpt
+
         holder.itemView.setOnClickListener {
+            // TODO: Gå till läs mer
             frag.model.deleteShop(currentShop)
         }
 

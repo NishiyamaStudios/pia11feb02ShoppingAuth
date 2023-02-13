@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // TODO: Inte visa login vid start
         Firebase.auth.addAuthStateListener {
 
             if(Firebase.auth.currentUser != null) {

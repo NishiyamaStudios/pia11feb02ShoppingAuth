@@ -77,6 +77,7 @@ class ShoppingFragment : Fragment() {
                 //visa felmeddelande
             } else {
                 model.addShopping(addshopname, amount)
+                // TODO: Töm textfält
             }
 
         }
