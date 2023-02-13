@@ -53,9 +53,16 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
             frag.model.deleteShop(currentShop)
         }
 
+        //först avmarkera och sedan kolla den
+        holder.shoppingCheckbox.isChecked = false
+        //försök att packa upp den med ?.let
+        currentShop.shopdone?.let {
+            holder.shoppingCheckbox.isChecked = it
+        }
+
         //ligga och lyssna på om checkboxen är ikryssad eller inte
         holder.shoppingCheckbox.setOnCheckedChangeListener { compoundButton, shopchecked ->
-            Log.i("pia11debug", shopchecked.toString())
+            frag.model.doneShop(currentShop, shopchecked)
         }
 
         /*

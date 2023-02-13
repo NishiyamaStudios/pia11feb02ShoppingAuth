@@ -60,7 +60,20 @@ class ShoplistViewModel : ViewModel() {
             loadShopping()
         }
 
+    }
 
+    //funktion för att spara vårt checkboxvärde till firebase
+    fun doneShop(doneitem : ShoppingItem, isdone : Boolean) {
+        val database = Firebase.database
+        val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
+
+        //spara den i var så att vi kan ändra på den, som ett mellansteg
+        var saveitem = doneitem
+
+        saveitem.shopdone = isdone
+        shopRef.child(doneitem.fbid!!).setValue(saveitem).addOnCompleteListener {
+            loadShopping() //egentligen onödigt att ladda om allt när vi bara ändrar en sak
+        }
     }
 
 }
