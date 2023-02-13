@@ -1,8 +1,11 @@
 package se.nishiyamastudios.pia11feb02shopping
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -13,10 +16,14 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val shoppingName: TextView
+        val shoppingDelete: ImageView
+        val shoppingCheckbox: CheckBox
 
         init {
 
             shoppingName = view.findViewById(R.id.shopNameTV)
+            shoppingDelete = view.findViewById(R.id.shopDeleteImage)
+            shoppingCheckbox = view.findViewById(R.id.shopCheckbox)
 
         }
 
@@ -42,10 +49,22 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
 
         //TODO: Markera köp/ej köpt
 
+        holder.shoppingDelete.setOnClickListener {
+            frag.model.deleteShop(currentShop)
+        }
+
+        //ligga och lyssna på om checkboxen är ikryssad eller inte
+        holder.shoppingCheckbox.setOnCheckedChangeListener { compoundButton, shopchecked ->
+            Log.i("pia11debug", shopchecked.toString())
+        }
+
+        /*
         holder.itemView.setOnClickListener {
             // TODO: Gå till läs mer
             frag.model.deleteShop(currentShop)
         }
+
+         */
 
     }
 

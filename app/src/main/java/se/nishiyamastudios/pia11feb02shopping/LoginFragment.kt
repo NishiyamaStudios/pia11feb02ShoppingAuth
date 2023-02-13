@@ -17,8 +17,6 @@ import se.nishiyamastudios.pia11feb02shopping.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
-
     val model by viewModels<LoginViewModel>()
 
     var _binding : FragmentLoginBinding? = null
@@ -43,8 +41,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        auth = Firebase.auth
 
         //observera vårt felmeddelande
         val errorObserver  = Observer<String> {errorMess ->

@@ -74,10 +74,13 @@ class ShoppingFragment : Fragment() {
 
             val amount = addshopamount.toIntOrNull() //har den inget värde blir det null
             if( amount == null) {
-                //visa felmeddelande
+                // TODO: Visa felmeddelande
             } else {
                 model.addShopping(addshopname, amount)
-                // TODO: Töm textfält
+
+                binding.shoppingNameET.setText("")
+                binding.shoppingAmountET.setText("")
+                binding.shoppingNameET.requestFocus() //Sätt textpekaren som aktiv i detta fältet
             }
 
         }
