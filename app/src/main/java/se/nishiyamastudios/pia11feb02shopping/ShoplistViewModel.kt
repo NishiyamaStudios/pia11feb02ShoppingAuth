@@ -1,5 +1,6 @@
 package se.nishiyamastudios.pia11feb02shopping
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -9,24 +10,32 @@ import javax.security.auth.callback.Callback
 
 class ShoplistViewModel : ViewModel() {
 
-    var shopitems = mutableListOf<ShoppingItem>()
+    //var shopitems = mutableListOf<ShoppingItem>()
 
-    fun addShopping(addshopname : String, addshopamount : Int, callback: () -> Unit) {
+
+    val shopitems: MutableLiveData<List<ShoppingItem>> by lazy {
+        MutableLiveData<List<ShoppingItem>>()
+    }
+
+
+
+    // fun addShopping(addshopname : String, addshopamount : Int, callback: () -> Unit) {
+    fun addShopping(addshopname : String, addshopamount : Int) {
 
         val tempShopitem = ShoppingItem(addshopname, addshopamount)
 
         val database = Firebase.database
         val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
         shopRef.push().setValue(tempShopitem).addOnCompleteListener {
-            loadShopping() {
-                callback()
-            }
+            loadShopping()
         }
 
         //loadShopping()
 
     }
-    fun loadShopping(callback: () -> Unit) {
+
+    //fun loadShopping(callback: () -> Unit) {
+    fun loadShopping() {
 
         val database = Firebase.database
         val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
@@ -37,21 +46,18 @@ class ShoplistViewModel : ViewModel() {
                 tempShop.fbid = childsnap.key
                 shoplist.add(tempShop)
             }
-            shopitems = shoplist
-            callback() //Kör kodbiten som vi fick med oss in som en parameter
-
+            shopitems.value = shoplist
         }
 
     }
 
-    fun deleteShop(delitem : ShoppingItem, callback: () -> Unit) {
+    //fun deleteShop(delitem : ShoppingItem, callback: () -> Unit) {
+    fun deleteShop(delitem : ShoppingItem) {
         val database = Firebase.database
         val shopRef = database.getReference("androidshopping").child(Firebase.auth.currentUser!!.uid)
 
         shopRef.child(delitem.fbid!!).removeValue().addOnCompleteListener {
-            loadShopping() {
-                callback()
-            }
+            loadShopping()
         }
 
 

@@ -32,7 +32,7 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentShop = frag.model.shopitems[position]
+        val currentShop = frag.model.shopitems.value!![position]
 
         if(currentShop.shopamount == null) {
             holder.shoppingName.text = currentShop.shopname
@@ -41,15 +41,18 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
         }
 
         holder.itemView.setOnClickListener {
-            frag.model.deleteShop(currentShop) {
-                notifyDataSetChanged()
-            }
+            frag.model.deleteShop(currentShop)
         }
 
     }
 
     override fun getItemCount(): Int {
-        return frag.model.shopitems.size
+        //value?.let innebär att detta utförs om value inte är null
+        frag.model.shopitems.value?.let {
+            return it.size
+        }
+        //annars, om värdet inte finns, return 0
+        return 0
     }
 
 }

@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -52,13 +54,15 @@ class ShoppingFragment : Fragment() {
         binding.shoppingRV.adapter = shopadapter
         binding.shoppingRV.layoutManager = LinearLayoutManager(requireContext())
 
-
-        /*
-        view.findViewById<Button>(R.id.logoutButton).setOnClickListener {
-            Firebase.auth.signOut()
+        val shopObserver  = Observer<List<ShoppingItem>> {
+            //Vad skall hända när det kommer en ny lista
+            shopadapter.notifyDataSetChanged()
         }
 
-         */
+        //this funkar inte här, requireActivity() blir inte korrekt eftersom det är fragment och inte activity som skall äga denna
+        //med viewLifecycleOwner så följer den fragmentens livscykel och inte activity, används när man skall lyssna i en fragment.
+        model.shopitems.observe(viewLifecycleOwner, shopObserver) //Vad skall vi observera, samt ägare och vem som observerar
+
 
         binding.logoutButton.setOnClickListener {
             Firebase.auth.signOut()
@@ -72,16 +76,12 @@ class ShoppingFragment : Fragment() {
             if( amount == null) {
                 //visa felmeddelande
             } else {
-                model.addShopping(addshopname, amount) {
-                    shopadapter.notifyDataSetChanged()
-                }
+                model.addShopping(addshopname, amount)
             }
 
         }
 
-        model.loadShopping() {
-            shopadapter.notifyDataSetChanged() //Genom detta så körs koden när vi vet att fragmenten är färdig.
-        }
+        model.loadShopping()
     }
 
 }
