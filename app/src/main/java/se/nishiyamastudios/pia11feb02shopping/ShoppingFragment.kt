@@ -63,6 +63,17 @@ class ShoppingFragment : Fragment() {
         //med viewLifecycleOwner så följer den fragmentens livscykel och inte activity, används när man skall lyssna i en fragment.
         model.shopitems.observe(viewLifecycleOwner, shopObserver) //Vad skall vi observera, samt ägare och vem som observerar
 
+        val errorObserver  = Observer<String> {
+            //Vad skall hända när det kommer en ny lista
+
+            if(it == "") {
+                binding.errorMessTV.visibility = View.GONE
+            } else {
+                binding.errorMessTV.text = it
+                binding.errorMessTV.visibility = View.VISIBLE
+            }
+        }
+        model.errorMessage.observe(viewLifecycleOwner, errorObserver)
 
         binding.logoutButton.setOnClickListener {
             Firebase.auth.signOut()
@@ -72,16 +83,11 @@ class ShoppingFragment : Fragment() {
             val addshopname = binding.shoppingNameET.text.toString()
             val addshopamount = binding.shoppingAmountET.text.toString()
 
-            val amount = addshopamount.toIntOrNull() //har den inget värde blir det null
-            if( amount == null) {
-                // TODO: Visa felmeddelande
-            } else {
-                model.addShopping(addshopname, amount)
+            model.addShopping(addshopname, addshopamount)
 
-                binding.shoppingNameET.setText("")
-                binding.shoppingAmountET.setText("")
-                binding.shoppingNameET.requestFocus() //Sätt textpekaren som aktiv i detta fältet
-            }
+            binding.shoppingNameET.setText("")
+            binding.shoppingAmountET.setText("")
+            binding.shoppingNameET.requestFocus() //Sätt textpekaren som aktiv i detta fältet
 
         }
 
