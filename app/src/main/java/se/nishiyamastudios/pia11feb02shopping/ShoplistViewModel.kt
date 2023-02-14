@@ -72,7 +72,7 @@ class ShoplistViewModel : ViewModel() {
 
         saveitem.shopdone = isdone
         shopRef.child(doneitem.fbid!!).setValue(saveitem).addOnCompleteListener {
-            loadShopping() //egentligen onödigt att ladda om allt när vi bara ändrar en sak
+            //loadShopping() //egentligen onödigt att ladda om allt när vi bara ändrar en sak
         }
     }
 

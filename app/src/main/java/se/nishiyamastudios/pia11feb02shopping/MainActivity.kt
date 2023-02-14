@@ -2,6 +2,9 @@ package se.nishiyamastudios.pia11feb02shopping
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +22,12 @@ class MainActivity : AppCompatActivity() {
             if(Firebase.auth.currentUser != null) {
                 supportFragmentManager.commit {
                     replace(R.id.mainFragCon, ShoppingFragment())
+                    findViewById<FragmentContainerView>(R.id.mainFragCon).visibility = View.VISIBLE
                 }
             } else {
                 supportFragmentManager.commit {
                     replace(R.id.mainFragCon, LoginFragment())
+                    findViewById<FragmentContainerView>(R.id.mainFragCon).visibility = View.VISIBLE
                 }
 
             }

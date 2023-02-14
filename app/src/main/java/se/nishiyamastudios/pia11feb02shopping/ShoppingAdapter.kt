@@ -47,8 +47,6 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
             holder.shoppingName.text = currentShop.shopname + " " + currentShop.shopamount!!.toString()
         }
 
-        //TODO: Markera köp/ej köpt
-
         holder.shoppingDelete.setOnClickListener {
             frag.model.deleteShop(currentShop)
         }
@@ -60,9 +58,16 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
             holder.shoppingCheckbox.isChecked = it
         }
 
+        /*
         //ligga och lyssna på om checkboxen är ikryssad eller inte
         holder.shoppingCheckbox.setOnCheckedChangeListener { compoundButton, shopchecked ->
             frag.model.doneShop(currentShop, shopchecked)
+        }
+
+         */
+
+        holder.shoppingCheckbox.setOnClickListener {
+            frag.model.doneShop(currentShop, holder.shoppingCheckbox.isChecked)
         }
 
         /*
@@ -70,8 +75,7 @@ class ShoppingAdapter : RecyclerView.Adapter<ShoppingAdapter.ViewHolder>() {
             // TODO: Gå till läs mer
             frag.model.deleteShop(currentShop)
         }
-
-         */
+        */
 
     }
 
